@@ -25,59 +25,59 @@
 
 namespace rigging {
 
-struct SimpleArm {
-  using joint_angles = eigen_tools::eigen_vec4f;
-  using bone_lengths = std::array<float, 3>;
-  using jacobian_matrix = eigen_tools::eigen_mat3f;
+	struct SimpleArm {
+		using joint_angles = eigen_tools::eigen_vec4f;
+		using bone_lengths = std::array<float, 3>;
+		using jacobian_matrix = eigen_tools::eigen_mat3f;
 
-  struct joint_angles_range {
-    SimpleArm::joint_angles min;
-    SimpleArm::joint_angles max;
-  };
+		struct joint_angles_range {
+			SimpleArm::joint_angles min;
+			SimpleArm::joint_angles max;
+		};
 
-  SimpleArm() = default;
-  SimpleArm(float l0, float l1);
+		SimpleArm() = default;
+		SimpleArm(float l0, float l1);
 
-  givr::vec3f positionOfJoint(int jointID) const;
-  givr::vec3f positionOfEndEffector() const;
+		givr::vec3f positionOfJoint(int jointID) const;
+		givr::vec3f positionOfEndEffector() const;
 
-  jacobian_matrix jacobian() const;
+		jacobian_matrix jacobian() const;
 
-  givr::mat4f M_0() const;
-  givr::mat4f M_1() const;
-  givr::mat4f M_2() const;
-  givr::mat4f M_endEffector() const;
+		givr::mat4f M_0() const;
+		givr::mat4f M_1() const;
+		givr::mat4f M_2() const;
+		givr::mat4f M_endEffector() const;
 
-  givr::mat4f localToGlobalOfEndEffector() const;
-  givr::mat4f globalToLocalOfEndEffector() const;
+		givr::mat4f localToGlobalOfEndEffector() const;
+		givr::mat4f globalToLocalOfEndEffector() const;
 
-  givr::mat4f localToGlobalOfJoint(int jointID) const;
-  givr::mat4f globalToLocalOfJoint(int jointID) const;
+		givr::mat4f localToGlobalOfJoint(int jointID) const;
+		givr::mat4f globalToLocalOfJoint(int jointID) const;
 
-  bone_lengths l = {1.f, 1.f, 1.f};
-  joint_angles theta = {0.f, 0.f, 0.f, 0.f}; // radians
-  givr::vec3f P{0.f, 0.f, 0.f};
+		bone_lengths l = {1.f, 1.f, 1.f};
+		joint_angles theta = {0.f, 0.f, 0.f, 0.f}; // radians
+		givr::vec3f P{0.f, 0.f, 0.f};
 
-};
+	};
 
-givr::vec3f endEffector(SimpleArm const &arm);
+	givr::vec3f endEffector(SimpleArm const &arm);
 
-std::vector<givr::mat4f> localToGlobalTransformsOfLinks(SimpleArm const &arm);
-std::vector<givr::mat4f>
-localToGlobalTransformsOfLinks(SimpleArm arm,
-                               SimpleArm::joint_angles const &angles,
-                               givr::vec3f const &rootPosition);
+	std::vector<givr::mat4f> localToGlobalTransformsOfLinks(SimpleArm const &arm);
+	std::vector<givr::mat4f>
+	localToGlobalTransformsOfLinks(SimpleArm arm,
+								   SimpleArm::joint_angles const &angles,
+								   givr::vec3f const &rootPosition);
 
-std::vector<givr::vec3f> jointPositions(SimpleArm const &arm);
+	std::vector<givr::vec3f> jointPositions(SimpleArm const &arm);
 
-bone_edges calculateBoneEdges(SimpleArm const &arm);
+	bone_edges calculateBoneEdges(SimpleArm const &arm);
 
-SimpleArm::joint_angles
-projectThetaOntoContraints(SimpleArm::joint_angles theta,
-                           SimpleArm::joint_angles_range const &thetaRange);
+	SimpleArm::joint_angles
+	projectThetaOntoContraints(SimpleArm::joint_angles theta,
+							   SimpleArm::joint_angles_range const &thetaRange);
 
-SimpleArm::joint_angles
-wrapJointAngles(SimpleArm::joint_angles theta,
-                SimpleArm::joint_angles_range const &thetaRange);
+	SimpleArm::joint_angles
+	wrapJointAngles(SimpleArm::joint_angles theta,
+					SimpleArm::joint_angles_range const &thetaRange);
 
 } // namespace rigging

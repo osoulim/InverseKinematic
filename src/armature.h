@@ -9,12 +9,12 @@
 
 namespace rigging {
 
-struct bone_edge {
-  givr::vec3f a, b;
-};
+	struct bone_edge {
+		givr::vec3f a, b;
+	};
 
-using bone_edges = std::vector<bone_edge>;
+	using bone_edges = std::vector<bone_edge>;
 
-float distanceToBone(bone_edge const &bone, givr::vec3f const &p);
+	float distanceToBone(bone_edge const &bone, givr::vec3f const &p);
 
 } // namespace rigging

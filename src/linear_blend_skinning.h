@@ -11,9 +11,9 @@
 
 namespace skinning {
 
-SkinnedModel::vertices_t
-posedPositions(SkinnedModel const &restModel,
-               std::vector<givr::mat4f> const &restTransformations,
-               std::vector<givr::mat4f> const &posedTransformations);
+	SkinnedModel::vertices_t
+	posedPositions(SkinnedModel const &restModel,
+				   std::vector<givr::mat4f> const &restTransformations,
+				   std::vector<givr::mat4f> const &posedTransformations);
 
 } // namespace skinning
