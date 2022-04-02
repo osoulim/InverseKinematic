@@ -123,11 +123,10 @@ namespace rigging {
 	}
 
 	std::vector<givr::mat4f> localToGlobalTransformsOfLinks(SimpleArm const &arm) {
-		std::vector<givr::mat4f> T(3); // 2 link
+		std::vector<givr::mat4f> T(3); // 3 link
 		T[0] = arm.localToGlobalOfJoint(0);
 		T[1] = arm.localToGlobalOfJoint(1);
 		T[2] = arm.localToGlobalOfJoint(2);
-
 		return T;
 	}
 
