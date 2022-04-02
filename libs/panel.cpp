@@ -99,8 +99,8 @@ namespace panel {
 
 			Separator();
 
-			Checkbox("Use IK", &useIK);
-			Checkbox("Use Jacobian Transposed (or Damped Least Squares)",
+			Checkbox("Use IK (Damped Least Squares)", &useIK);
+			Checkbox("Use Jacobian Transposed",
 					 &useJacobianTransposed);
 			SliderFloat("damping", &damping, 0.f, 2.f, "%.1f");
 			Checkbox("Use approximate Jacobian (finite difference of epsilon radians)",

@@ -219,7 +219,10 @@ int main(void) {
 			rigging::DeltaThetaFunc solveDeltaTheta = [jacobian](rigging::SimpleArm const &arm,
 																 givr::vec3f const &deltaE) {
 				auto J = jacobian(arm);//Get jacobian
-				return rigging::solveDeltaTheta_JacobianTranspose(J, deltaE);//Solve using transpose method
+				if (panel::useJacobianTransposed) {
+					return rigging::solveDeltaTheta_JacobianTranspose(J, deltaE);//Solve using transpose method
+				}
+				return rigging::solveDeltaTheta_DampedLeastSquares(J, deltaE, panel::damping);
 			};
 
 			rig.theta = rigging::solveIK(rig, target, jointsRange, solveDeltaTheta,

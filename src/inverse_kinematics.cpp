@@ -57,6 +57,14 @@ namespace rigging {
 		return rig.theta;
 	}
 
+	SimpleArm::joint_angles solveDeltaTheta_DampedLeastSquares(SimpleArm::jacobian_matrix const &J, vec3f const &deltaE, float damping) {
+		eigen_tools::eigen_vec3f deltaE_eigen = eigen_tools::toEigen(deltaE);
+		transposed_jacobian_matrix Jt = J.transpose();
+		eigen_tools::eigen_vec4f deltaTheta = (Jt * J + damping * damping * eigen_tools::eigen_mat4f::Identity()).inverse() * (Jt * deltaE_eigen);
+		return SimpleArm::joint_angles(deltaTheta);
+	}
+
+
 	SimpleArm::joint_angles solveDeltaTheta_JacobianTranspose(SimpleArm::jacobian_matrix const &J, vec3f const &deltaE) {
 		eigen_tools::eigen_vec3f deltaE_eigen = eigen_tools::toEigen(deltaE);
 		transposed_jacobian_matrix Jt = J.transpose();

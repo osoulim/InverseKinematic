@@ -22,11 +22,10 @@ namespace rigging{
 	using EndEffectorFunction = std::function<givr::vec3f(SimpleArm const &)>;
 
 
-/*For bonus .....
-SimpleArm::joint_angles solveDeltaTheta_DampedLeastSquares(SimpleArm::jacobian_matrix const &jacobian,
-                                               givr::vec3f const &deltaE,
-                                               float dampling = 1.f);
-*/
+
+	SimpleArm::joint_angles solveDeltaTheta_DampedLeastSquares(SimpleArm::jacobian_matrix const &jacobian,
+																   givr::vec3f const &deltaE,
+																   float damping = 1.f);
 
 	SimpleArm::joint_angles solveDeltaTheta_JacobianTranspose(SimpleArm::jacobian_matrix const &jacobian,
 															  givr::vec3f const &deltaE);
