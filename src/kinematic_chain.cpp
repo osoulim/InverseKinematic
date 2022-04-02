@@ -29,8 +29,16 @@ mat4f SimpleArm::M_1() const {
   return T * Rz;
 }
 
+mat4f SimpleArm::M_2() const {
+	auto T = translate(mat4f{1.f}, Axis::x * l[1]);
+	auto Rz = rotate(mat4f{1.f}, theta[3], Axis::z);
+
+	return T * Rz;
+}
+
+
 mat4f SimpleArm::M_endEffector() const {
-  auto T = translate(mat4f{1.f}, Axis::x * l[1]);
+  auto T = translate(mat4f{1.f}, Axis::x * l[2]);
   return T;
 }
 
@@ -39,11 +47,13 @@ mat4f SimpleArm::localToGlobalOfJoint(int jointID) const {
     return M_0();
   if (jointID == 1)
     return M_0() * M_1();
+  if (jointID == 2)
+	  return M_0() * M_1() * M_2();
   return mat4f{0.f};
 }
 
 mat4f SimpleArm::localToGlobalOfEndEffector() const {
-  return localToGlobalOfJoint(1) * M_endEffector();
+  return localToGlobalOfJoint(2) * M_endEffector();
 }
 
 mat4f SimpleArm::globalToLocalOfEndEffector() const {
@@ -79,9 +89,10 @@ SimpleArm::jacobian_matrix SimpleArm::jacobian() const {
 }
 
 std::vector<givr::mat4f> localToGlobalTransformsOfLinks(SimpleArm const &arm) {
-  std::vector<givr::mat4f> T(2); // 2 link
+  std::vector<givr::mat4f> T(3); // 2 link
   T[0] = arm.localToGlobalOfJoint(0);
   T[1] = arm.localToGlobalOfJoint(1);
+  T[2] = arm.localToGlobalOfJoint(2);
 
   return T;
 }
@@ -108,6 +119,7 @@ wrapJointAngles(SimpleArm::joint_angles theta,
   theta[0] = wrap(theta[0], thetaRange.min[0], thetaRange.max[0]);
   theta[1] = wrap(theta[1], thetaRange.min[1], thetaRange.max[1]);
   theta[2] = wrap(theta[2], thetaRange.min[2], thetaRange.max[2]);
+  theta[3] = wrap(theta[3], thetaRange.min[3], thetaRange.max[3]);
   return theta;
 }
 
@@ -126,10 +138,11 @@ localToGlobalTransformsOfLinks(SimpleArm arm,
 
 std::vector<vec3f> jointPositions(SimpleArm const &arm) {
   std::vector<vec3f> points;
-  points.reserve(3);
+  points.reserve(4);
 
   points.push_back(arm.positionOfJoint(0));
   points.push_back(arm.positionOfJoint(1));
+  points.push_back(arm.positionOfJoint(2));
   points.push_back(arm.positionOfEndEffector());
 
   return points;

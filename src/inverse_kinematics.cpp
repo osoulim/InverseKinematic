@@ -61,7 +61,7 @@ SimpleArm::joint_angles solveDeltaTheta_JacobianTranspose(SimpleArm::jacobian_ma
   eigen_tools::eigen_vec3f deltaE_eigen = eigen_tools::toEigen(deltaE);
   transposed_jacobian_matrix Jt;
   //TODO: Complete the tranpose calculation for IK
-  return SimpleArm::joint_angles({ 0.0f, 0.0f, 0.0f });
+  return SimpleArm::joint_angles({ 0.0f, 0.0f, 0.0f, 0.0f });
 }
 
 } // namespace rigging

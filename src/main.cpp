@@ -31,16 +31,16 @@ std::vector<Cylinder> armGeometry(rigging::SimpleArm const &arm, float radius) {
   // wastefull, remakes the lines each time?
   std::vector<Cylinder> rods;
   //TODO: Dont forget to change this!!!!
-  rods.reserve(2);//3);
+  rods.reserve(3);//3);
   rods.push_back(Cylinder(Point1(links[0]), //
                           Point2(links[1]), //
                           Radius(radius)));
   rods.push_back(Cylinder(Point1(links[1]), //
                           Point2(links[2]), //
                           Radius(radius * 0.75f)));
-  //rods.push_back(Cylinder(Point1(links[2]), //
-                          //Point2(links[3]), //
-                          //Radius(radius * 0.5f)));
+  rods.push_back(Cylinder(Point1(links[2]), //
+                          Point2(links[3]), //
+                          Radius(radius * 0.5f)));
   return rods;
 }
 
@@ -166,7 +166,8 @@ int main(void) {
   rigging::SimpleArm rig;
   panel::boneLengths = {model.bones[0].length, //
                         model.bones[1].length, //
-                        };
+                        model.bones[2].length,
+  						};
   rig.l = panel::boneLengths;
   rig.P = panel::armPosition;
 
@@ -244,7 +245,7 @@ int main(void) {
     if (panel::showLBS) {
       auto T_rest = rigging::localToGlobalTransformsOfLinks(
           rig,                  // uses the bone lengths
-          {0.f, 0.f, 0.f},      // rest angles
+          {0.f, 0.f, 0.f, 0.f},      // rest angles
           {0.f, 0.f, 0.f}       // rest position
       );
       auto T_posed = rigging::localToGlobalTransformsOfLinks(rig);
