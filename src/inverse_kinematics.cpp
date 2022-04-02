@@ -59,9 +59,10 @@ namespace rigging {
 
 	SimpleArm::joint_angles solveDeltaTheta_JacobianTranspose(SimpleArm::jacobian_matrix const &J, vec3f const &deltaE) {
 		eigen_tools::eigen_vec3f deltaE_eigen = eigen_tools::toEigen(deltaE);
-		transposed_jacobian_matrix Jt;
-		//TODO: Complete the tranpose calculation for IK
-		return SimpleArm::joint_angles({ 0.0f, 0.0f, 0.0f, 0.0f });
+		transposed_jacobian_matrix Jt = J.transpose();
+		auto alpha = deltaE_eigen.dot(J * Jt * deltaE_eigen) / (J * Jt * deltaE_eigen).dot(J * Jt * deltaE_eigen);
+		eigen_tools::eigen_vec4f deltaTheta = alpha * (Jt * deltaE_eigen);
+		return SimpleArm::joint_angles(deltaTheta);
 	}
 
 } // namespace rigging

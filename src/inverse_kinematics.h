@@ -5,7 +5,7 @@
 #include "eigen_tools.h"
 
 namespace rigging{
-	using transposed_jacobian_matrix = eigen_tools::eigen_mat3f;
+	using transposed_jacobian_matrix = eigen_tools::eigen_mat4x3f;
 	using J_JT_Matrix = eigen_tools::eigen_mat3f;
 
 

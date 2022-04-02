@@ -83,8 +83,42 @@ namespace rigging {
 		// | dy/dt0 dy/dt1 dy/dt2 dy/dt3 |
 		// | dz/dt0 dz/dt1 dz/dt2 dz/dt3 |
 		// note: the root position P is not a fuction of thetas so not present
-		jacobian_matrix J;
 
+		auto t0 = theta[0]; // base rotation angle (about Y axis)
+		auto t1 = theta[1]; // link 1 rotation
+		auto t2 = theta[2]; // link 2 rotation
+		auto t3 = theta[3]; // link 3 rotation
+		auto l0 = l[0];
+		auto l1 = l[1];
+		auto l2 = l[2];
+
+//		auto r = l0 * cos(t1) + l1 * cos(t1 + t2) + l2 * cos(t1 + t2 + t3);
+//		auto y = l0 * sin(t1) + l1 * sin(t1 + t2) + l2 * sin(t1 + t2 + t3);
+//
+//		auto result = P +
+//				 		vec3f{cos(t0) * r,   // x
+//						 y,             // y
+//						 -sin(t0) * r}; // z
+//
+
+		jacobian_matrix J = (Eigen::MatrixXf(3, 4) <<
+					// x
+					-sin(t0) * (l0 * cos(t1) + l1 * cos(t1 + t2) + l2 * cos(t1 + t2 + t3)),
+					cos(t0) * (l0 * -sin(t1) + l1 * -sin(t1 + t2) + l2 * -sin(t1 + t2 + t3)),
+					cos(t0) * (l1 * -sin(t1 + t2) + l2 * -sin(t1 + t2 + t3)),
+					cos(t0) * (l2 * -sin(t1 + t2 + t3)),
+					// y
+					0.f,
+					l0 * cos(t1) + l1 * cos(t1 + t2) + l2 * cos(t1 + t2 + t3),
+					l1 * cos(t1 + t2) + l2 * cos(t1 + t2 + t3),
+					l2 * cos(t1 + t2 + t3),
+					// z
+					-cos(t0) * (l0 * cos(t1) + l1 * cos(t1 + t2) + l2 * cos(t1 + t2 + t3)),
+					-sin(t0) * (l0 * -sin(t1) + l1 * -sin(t1 + t2) + l2 * -sin(t1 + t2 + t3)),
+					-sin(t0) * (l1 * -sin(t1 + t2) + l2 * -sin(t1 + t2 + t3)),
+					-sin(t0) * (l2 * -sin(t1 + t2 + t3))
+		).finished();
+//		std::cout <<J <<std::endl;
 		return J;
 	}
 

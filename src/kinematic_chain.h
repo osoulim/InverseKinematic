@@ -28,7 +28,7 @@ namespace rigging {
 	struct SimpleArm {
 		using joint_angles = eigen_tools::eigen_vec4f;
 		using bone_lengths = std::array<float, 3>;
-		using jacobian_matrix = eigen_tools::eigen_mat3f;
+		using jacobian_matrix = eigen_tools::eigen_mat3x4f;
 
 		struct joint_angles_range {
 			SimpleArm::joint_angles min;
