@@ -10,12 +10,10 @@ namespace skinning {
 				   std::vector<givr::mat4f> const &boneRest,
 				   std::vector<givr::mat4f> const &bonePosed) {
 
-		//TODO: Calculate the transformations on the given pose
 		SkinnedModel::vertices_t posed(model.restPositions.size());
 
 		posed = model.restPositions;
 		auto weights = model.vertexWeights;
-
 		for (int i = 0; i < posed.size(); i++) {
 			vec3f res {0.f};
 			for (auto &weight: weights[i]) {
@@ -23,7 +21,6 @@ namespace skinning {
 			}
 			posed[i] = res;
 		}
-
 		return posed;
 	}
 
